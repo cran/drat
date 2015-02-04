@@ -1,0 +1,11 @@
+31ad2fc33b6b07e2b952b5e523a2eb35 *ChangeLog
+67cf36fce222b7d1b551509ac20bf872 *DESCRIPTION
+310427c141f9e1980bb0b3fb6fc9c85e *NAMESPACE
+732048820d89e6435e46af5de1347311 *R/addRepo.R
+a7498c5c1fe3a52c23ed79a8b05fa784 *R/insertPackage.R
+c249d7cbfc366f9587d2542c4afe98ac *README.md
+4d16560f5f0d31800350fcf543d18c84 *inst/TODO.md
+db0c4611b5e8c35c52db1c633575a35a *man/addRepo.Rd
+51fee4592451a61a64179859afe23ad2 *man/drat-package.Rd
+195a22029513cf247fba69a1c6d970ed *man/insertPackage.Rd
+990a4eb95f3a6adc1f4ab368dd8420a9 *tests/simpleTests.R

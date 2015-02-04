@@ -1,0 +1,59 @@
+2015-02-04  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION: Version 0.0.1
+
+	* DESCRIPTION (Description): And another editing of Description:
+
+2015-02-02  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/addRepo.R (addRepo): Use http, not https, at GitHub
+
+	* man/drat-package.Rd: Ditto
+
+2015-02-01  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/insertPackage.R (insertPackage): Renamed from insertRelesae()
+
+	* NAMESPACE: Explicitly expotr addRepo() and insertPackage()
+
+	* R/addRepo.R (add): Also provide unexported alias drat:::add()
+	* R/insertPackage.R (insert): Ditto for drat:::insert()
+
+	* inst/TODO.md: Moved from top-level
+
+	* tests/simpleTests.R (testInsertLocal): Expanded tests
+
+	* .travis.yml (script): Added Travis CI support
+	* .Rbuildignore: Added to exclude Travis file
+
+2015-01-30  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/addRepo.R (addRepo): Renamed from add.R; function now addRepo()
+
+	* R/insertRelease.R (insertRelease): Renamed from insert.R, function
+	renamed too to stress that repos contains releases not commits
+
+	* tests/simpleTests.R: Changed to use addRepo()
+
+2015-01-29  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/insert.R (insert): Small enhancements / corrections
+
+2015-01-28  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/insert.R (insert): Offer optional git add, commit push
+
+	* R/add.R (add): Allow for multiple accounts added at once
+
+	* tests/simpleTests.R: Added first simple test script
+
+	* man/drat-package.Rd: Updated
+
+2015-01-23  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION: Beginnings of what will become version 0.0.1
+
+	* R/add.R: Initial version
+	* R/insert.R: Ditto
+
+	* TODO.md: Added with some first notes
