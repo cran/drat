@@ -21,22 +21,22 @@ Drat tries to help here and supports two principal modes:
 - *GitHub* by leveraging `gh-pages`
 - *Other repos* by using other storage where you can write and provide html access
 
-See the package documentation, or the
-[package page](http://dirk.eddelbuettel.com/code/drat.html) for more.
+See the next section about to get started, the package documentation, the
+[drat package page](http://dirk.eddelbuettel.com/code/drat.html) or the
+[blog section on drat](http://dirk.eddelbuettel.com/blog/code/drat/) for more.
 
 ### Getting Started
 
-You can install the package from [CRAN](http://cran.r-project.org) (once it
-will have left the `incoming/` directory there) via
-`install.packages("drat")` after which you consult the manual pages.
-
-Alternatively, for a first installation, you can also do
+You can install the package from [CRAN](http://cran.r-project.org) via the
+standard `install.packages("drat")`.  Alternatively, for a first
+installation, you can also do
 
 ```{.r}
 install.packages("drat", repos="http://eddelbuettel.github.io/drat")
-```
+``` 
 
-After either initial installation, you can add line such as
+to install directly from the drat repository.  After either initial
+installation, you can add line such as
 
 ```{.r}
 drat:::add("eddelbuettel")
@@ -51,6 +51,35 @@ filename as an argument to `insertPackage()` or its shorthand variant:
 ```{.r}
 drat:::insert("drat_0.0.1.tar.gz")
 ```
+
+You can now add, commit and push the new version. A somewhat experimental
+option also exists for the `insertPackage()` aka `drat:::insert()` function.
+
+The package documentation provides more detils; the
+[drat package page](http://dirk.eddelbuettel.com/code/drat.html) has a longer
+tutorial, and the
+[blog section on drat](http://dirk.eddelbuettel.com/blog/code/drat/) has even
+more.
+
+### Status
+
+The package is now available from [CRAN](http://cran.r-project.org). A few
+possible improvements, additions and next steps are listed in the
+[TODO.md](https://github.com/eddelbuettel/drat/blob/master/inst/TODO.md)
+file.
+
+A few drat repositories are starting to appear (besides this one). Via a
+combination of looking at the direct forks as well as GitHub search, I became
+aware of these:
+
+ - [hrbrmstr](https://github.com/hrbrmstr/drat)
+ - [yutannihilation](https://github.com/yutannihilation/drat)
+ - [gschofl](https://github.com/gschofl/drat/)
+ - [csgillespie](https://github.com/csgillespie/drat)
+ - [homerhanumat](https://github.com/homerhanumat/drat)
+ - [cboettig](https://github.com/cboettig/drat)
+ - [shabbychef](https://github.com/shabbychef/drat)
+ - [RcppCore](https://github.com/RcppCore/drat)
 
 ### Author
 
