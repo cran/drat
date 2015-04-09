@@ -24,6 +24,14 @@
 ##' @param ... For the aliases variant, a catch-all collection of
 ##' parameters.
 ##' @return The altered set of repositories
+##' @examples
+##' \dontrun{
+##'   addRepo("drat")                            # adds GitHub repo via default URL
+##'   addRepo(c("eddelbuettel", "ghrr"))         # ditto but adds two repos at once
+##'
+##'   addRepo("LocalRepo", "/nas/R/repo")        # adds local file-based repo,
+##'                                              # assumes you can read /nas/R/repo
+##' }
 ##' @author Dirk Eddelbuettel
 addRepo <- function(account, alturl) {
     r <- getOption("repos")

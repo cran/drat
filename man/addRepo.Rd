@@ -42,6 +42,15 @@ An aliased function \code{add} is also available, but not exported
 via \code{NAMESPACE} to not clobber a possibly unrelated function;
 use it via \code{drat:::add()}.
 }
+\examples{
+\dontrun{
+  addRepo("drat")                            # adds GitHub repo via default URL
+  addRepo(c("eddelbuettel", "ghrr"))         # ditto but adds two repos at once
+
+  addRepo("LocalRepo", "/nas/R/repo")        # adds local file-based repo,
+                                             # assumes you can read /nas/R/repo
+}
+}
 \author{
 Dirk Eddelbuettel
 }

@@ -1,3 +1,64 @@
+2015-04-09  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): New release 0.0.3
+
+	* vignettes/DratForPackageUsers.Rmd: Added new vignette detailing
+	drat use for package users (ie someone installing from a drat)
+
+2015-04-08  Dirk Eddelbuettel  <edd@debian.org>
+
+	* vignettes/DratForPackageAuthors.Rmd: Added new vignette detailing
+	drat use for package authors (ie someone writing to a drat)
+
+2015-03-28  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION: Added knitr to Suggests: and VignetteBuilder:
+	* .travis.yml: Added knitr
+
+2015-03-27  Dirk Eddelbuettel  <edd@debian.org>
+
+	* vignettes/WhyDrat.Rmd: Adding post by Steven as vignette
+
+	* vignettes/CombiningDratAndTravis.Rmd: Adding (work-in-progress)
+	post by Colin
+
+2015-03-26  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/addRepo.R: Added/extended/clarified example
+	* man/addRepo.Rd: Corresponding Rd file
+
+2015-03-22  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/insertPackage.R: Support setting a commit message
+
+	* inst/scripts/git2targz.sh: Beginnings of helper script to create a
+	tarball (suitable for a drat repo) given a repo URL
+
+2015-03-16  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/insertPackage.R (insertPackage): Use on.exit() with setwd() to
+	ensure we return to current working directory  		(closes #9)
+
+2015-03-14  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/addRepo.R: Added examples (inside \dontrun{}) to help page
+
+	* R/insertPackage.R: Idem
+
+2015-03-12  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/insertPackage.R (insertPackage): Add quietly=TRUE to
+	requireNamespace
+
+2015-03-04  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/insertPackage.R (insertPackage): Correction to file operations
+	and path settings (cf GH issue #7)
+
+2015-03-04  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/insertPackage.R (insertPackage): Re-enable git2r::checkout()
+
 2015-02-28  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): New release 0.0.2

@@ -17,8 +17,10 @@ insert(...)
 \item{repodir}{A local directory corresponding to the repository
 top-leve directory.}
 
-\item{commit}{A boolean toggle to select automatic git operations
-\sQuote{add}, \sQuote{commit}, and \sQuote{push}.}
+\item{commit}{Either boolean toggle to select automatic git operations
+\sQuote{add}, \sQuote{commit}, and \sQuote{push} or, alternatively,
+a character variable can be used to specify a commit message; this also
+implies the \sQuote{TRUE} values in other contexts.}
 
 \item{...}{For the aliases variant, a catch-all collection of
 parameters.}
@@ -45,6 +47,12 @@ otherwise the \code{git} shell command is used.
 An aliased function \code{insert} is also available, but not
 exported via \code{NAMESPACE} to not clobber a possibly unrelated
 function; use it via \code{drat:::insert()}.
+}
+\examples{
+\dontrun{
+  insertPackage("foo_0.2.3.tar.gz")   # inserts into (default) repo
+  insertPackage("foo_0.2.3.tar.gz", "/nas/R/")  # ... into local dir
+}
 }
 \author{
 Dirk Eddelbuettel

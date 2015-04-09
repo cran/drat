@@ -55,7 +55,7 @@ drat:::insert("drat_0.0.1.tar.gz")
 You can now add, commit and push the new version. A somewhat experimental
 option also exists for the `insertPackage()` aka `drat:::insert()` function.
 
-The package documentation provides more detils; the
+The package documentation provides more details; the
 [drat package page](http://dirk.eddelbuettel.com/code/drat.html) has a longer
 tutorial, and the
 [blog section on drat](http://dirk.eddelbuettel.com/blog/code/drat/) has even
@@ -80,6 +80,16 @@ aware of these:
  - [cboettig](https://github.com/cboettig/drat)
  - [shabbychef](https://github.com/shabbychef/drat)
  - [RcppCore](https://github.com/RcppCore/drat)
+ - [arilamstein](https://github.com/arilamstein/drat)
+ - [piccolbo](https://github.com/piccolbo/drat)
+ - [ghrr](https://github.com/ghrr/drat)
+
+### Travis Integration
+
+Colin Gillespie has started to integrate [Travis
+CI](http://www.travis-ci.org) with dart, see his
+[dratTravis](https://github.com/csgillespie/dratTravis) repository for more
+details. 
 
 ### Author
 
