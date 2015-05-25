@@ -1,10 +1,10 @@
 ---
 title: "Why Drat?"
 author: "Steven Pav and Dirk Eddelbuettel"
-date: "`r Sys.Date()`"
+date: "2015-03-27"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Why Drat?}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---

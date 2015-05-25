@@ -1,10 +1,10 @@
 ---
 title: "Drat Basics for Package Users: Installing or Updating Packages"
 author: "Dirk Eddelbuettel"
-date: "2015-04-10"
+date: "2015-05-24"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Drat Basics for Package Users: Installing or Updating Packages}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
@@ -60,11 +60,12 @@ within the `repos` vector, and the second provides the local (filesystem-based)
 or remote (web-based) URL:
 
 ```
-drat::addRepo("workgroup", "file:///nfs/groups/groupABC/R/drat"RcppCore")
+drat::addRepo("workgroup", "file:/nfs/groups/groupABC/R/drat"RcppCore")
 ```
 
 where the same local network repository example is used as in the example in
-the [companion vignette](DratForPackageAuthors.html).
+the [companion vignette](DratForPackageAuthors.html).  Note that we start the
+location URL with `file:`.
 
 
 ## Summary
