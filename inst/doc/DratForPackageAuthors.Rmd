@@ -44,7 +44,7 @@ always assume `http://USER.github.io/drat`.
 So for you as a package author with a given GitHub account, all that is
 needed is a repository named `drat` with a `gh-pages` branch.  If you are
 familiar with `git` at the command-line, you can just create the branch (and
-the `src/contrib/ directory structure in it; see below).
+the `src/contrib/` directory structure in it; see below).
 
 If you are less familiar with git, a really easy shortcut is to simply
 [fork](https://help.github.com/articles/fork-a-repo/) the actual
@@ -82,7 +82,7 @@ In either case, the package will be copied into the repo, and the PACKAGES
 file will be updated.
 
 Lastly, if you have `git` (the command-line tool) or the wicked
-[git2r](http://cran.r-project.org/web/packages/git2r/index.html) package
+[git2r](http://cran.r-project.org/package=git2r) package
 installed, then you can also use the `commit=TRUE` option to have the new
 files added and committed.  Neither of these variant pushes, so that last
 step is left to the user (as it commonly requires authentication).

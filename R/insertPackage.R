@@ -25,6 +25,11 @@
 ##' \sQuote{add}, \sQuote{commit}, and \sQuote{push} or, alternatively,
 ##' a character variable can be used to specify a commit message; this also
 ##' implies the \sQuote{TRUE} values in other contexts.
+##' @param action A character string containing one of: \dQuote{none} 
+##' (the default; add the new package into the repo, effectively masking 
+##' previous versions), \dQuote{archive} (place any previous versions into 
+##' a package-specific archive folder, creating such an archive if it does 
+##' not already exist), or \dQuote{prune} (calling \code{\link{pruneRepo}}).
 ##' @param ... For the aliases variant, a catch-all collection of
 ##' parameters.
 ##' @return NULL is returned.
@@ -33,15 +38,20 @@
 ##'   insertPackage("foo_0.2.3.tar.gz")   # inserts into (default) repo
 ##'   insertPackage("foo_0.2.3.tar.gz", "/nas/R/")  # ... into local dir
 ##' }
+##' \dontrun{
+##'   insertPackage("foo_0.2.3.tar.gz", action = "prune")   # prunes any older copies
+##'   insertPackage("foo_0.2.3.tar.gz", action = "archive")   # archives any older copies
+##' }
 ##' @author Dirk Eddelbuettel
 insertPackage <- function(file,
                           repodir=getOption("dratRepo", "~/git/drat"),
-                          commit=FALSE) {
+                          commit=FALSE,
+                          action=c("none", "archive", "prune")) {
 
-    if (!file.exists(file)) stop("File ", file, " not found\n", .Call=FALSE)
+    if (!file.exists(file)) stop("File ", file, " not found\n", call.=FALSE)
 
     ## TODO src/contrib if needed, preferably via git2r
-    if (!file.exists(repodir)) stop("Directory ", repodir, " not found\n", .Call=FALSE)
+    if (!file.exists(repodir)) stop("Directory ", repodir, " not found\n", call.=FALSE)
 
     ## check for the optional git2r package
     haspkg <- requireNamespace("git2r", quietly=TRUE)
@@ -68,20 +78,20 @@ insertPackage <- function(file,
     }
 
     pkgtype <- identifyPackageType(file)
-    reldir <- getPathForPackageType(pkgtype)
+    reldir <- getPathForPackage(file)
 
     pkgdir <- file.path(repodir, reldir)
 
     if (!file.exists(pkgdir)) {
         ## TODO: this could be in a git branch, need checking
         if (!dir.create(pkgdir, recursive = TRUE)) {
-            stop("Directory ", pkgdir, " couldn't be created\n", .Call=FALSE)
+            stop("Directory ", pkgdir, " couldn't be created\n", call.=FALSE)
         }
     }
 
     ## copy file into repo
     if (!file.copy(file, pkgdir, overwrite=TRUE)) {
-        stop("File ", file, " can not be copied to ", pkgdir, .Call=FALSE)
+        stop("File ", file, " can not be copied to ", pkgdir, call.=FALSE)
     }
     
     ## update index
@@ -106,9 +116,19 @@ insertPackage <- function(file,
             message("Added, committed and pushed ", pkg, " plus PACKAGES files.\n") 
         } else {
             warning("Commit skipped as both git2r package and git command missing.",
-                    .Call=FALSE)
+                    call.=FALSE)
         }
     }
+    
+    action <- match.arg(action)
+    pkgname <- gsub("\\.tar\\..*$", "", pkg)
+    pkgname <- strsplit(pkgname, "_", fixed=TRUE)[[1L]][1L]
+    if (action == "prune") {
+        pruneRepo(repopath = repodir, pkg = pkgname, remove = TRUE)
+    } else if (action == "archive") {
+        archivePackages(repopath = repodir, pkg = pkgname)
+    }
+    
     invisible(NULL)
 }
 
@@ -134,35 +154,78 @@ identifyPackageType <- function(file) {
     } else if (grepl("_.*\\.zip$", file)) {
         "win.binary"
     } else {
-        stop("Unknown package type", .Call=FALSE)
+        stop("Unknown package type", call.=FALSE)
     }
     return(ret)
+}
+
+##' This function returns the compile-time information added
+##' to the \code{DESCRIPTION} file in the package.
+##'
+##' @title Get information from a binary package 
+##' @param file the fully qualified path of the package
+##' @return A named vector with several components
+##' @author Dirk Eddelbuettel
+getPackageInfo <- function(file) {
+    if (!file.exists(file)) stop("File ", file, " not found!", call.=FALSE)
+    
+    td <- tempdir()
+    if (grepl(".zip$", file)) {
+        unzip(file, exdir=td)
+    } else if (grepl(".tgz$", file)) {
+        untar(file, exdir=td)
+    } else {
+        ##stop("Not sure we can handle ", file, call.=FALSE)
+        fields <- c("Source"=TRUE, "Rmajor"=NA, "Mavericks"=FALSE)
+        return(fields)
+    }
+
+    pkgname <- gsub("^([a-zA-Z0-9]*)_.*", "\\1", basename(file))
+    path <- file.path(td, pkgname, "DESCRIPTION")
+    builtstring <- read.dcf(path, 'Built')
+    unlink(file.path(td, pkgname), recursive=TRUE)
+
+    fields <- strsplit(builtstring, "; ")[[1]]
+    names(fields) <- c("Rversion", "OSflavour", "Date", "OS")
+
+    rmajor <- gsub("^R (\\d\\.\\d)\\.\\d.*", "\\1", fields["Rversion"])
+    isDarwin13 <- ifelse(fields["OSflavour"] == "x86_64-apple-darwin13.4.0", "yes", "no")
+    fields <- c(fields, "Rmajor"=unname(rmajor), "Mavericks"=unname(isDarwin13))
+
+    return(fields)
 }
 
 ##' This function returns the directory path (relative to 
 ##' the repo root) where the package needs to be copied to.
 ##'
 ##' @title Get relative path for package type
-##' @param pkgtype The package type as a string.
-##' @param rversion String which identifies the major.minor 
-### R version, which was used to build this package. Defaults 
-##' to the version of the current interpreter.
+##' @param file The fully qualified path of the package
 ##' @return string Relative file path where packages of 
 ##' this type should be copied to.
-##' @author Jan Schulz and Dirk Eddelbuettel
-getPathForPackageType <- function(pkgtype, rversion) {
-    .getRVersionString <- function() {
-        paste(getRversion()$major, getRversion()$minor, sep=".")
-        ## or:    gsub("\\.\\d+$", "", getRversion())
-        ## or:    sprintf("%s.%s", base::getRversion()$major, base::getRversion()$minor)
-    }
-    if (missing(rversion)) rversion <- .getRVersionString()
-    ret <- if (pkgtype == "source") {
-        file.path("src", "contrib")
+##' @author Jan Schulz, Dirk Eddelbuettel and Matthew Jones
+getPathForPackage <- function(file) {
+    pkgtype <- identifyPackageType(file)
+    fields <- getPackageInfo(file)
+    rversion <- unname(fields["Rmajor"])
+        
+    if (pkgtype == "source") {
+        ret <- file.path("src", "contrib")
     } else if (pkgtype == "win.binary") {
-        file.path("bin", "windows", "contrib", rversion)
+        ret <- file.path("bin", "windows", "contrib", rversion)
     } else if (pkgtype == "mac.binary") {
-        file.path("bin", "macosx", "contrib", rversion)
+        if (fields["OSflavour"] == "") {
+            # non-binary package, treated as Mavericks
+            message("Note: Non-binary OS X package will be installed in Mavericks path.")
+            fields["Mavericks"] <- "yes"
+        }
+        if (unname(fields["Mavericks"]) == "yes") {
+            ret <- file.path("bin", "macosx", "mavericks", "contrib", rversion)
+        } else {
+            ret <- file.path("bin", "macosx", "contrib", rversion)
+        }
     }
     return(ret)
 }
+
+
+
