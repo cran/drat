@@ -8,5 +8,5 @@
 
 ## ---- eval=FALSE---------------------------------------------------------
 #  ## insert given package into given repo on a network-local file system
-#  drat::insertPackage("myPkg_0.5.tar.gz", "file:/nfs/groups/groupABC/R/drat")
+#  drat::insertPackage("myPkg_0.5.tar.gz", "file://nfs/groups/groupABC/R/drat")
 

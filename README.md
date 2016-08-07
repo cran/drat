@@ -1,11 +1,11 @@
-## drat [![Build Status](https://travis-ci.org/eddelbuettel/drat.svg)](https://travis-ci.org/eddelbuettel/drat) [![License](http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-2.0.html) [![CRAN](http://www.r-pkg.org/badges/version/drat)](http://cran.rstudio.com/package=drat) [![Downloads](http://cranlogs.r-pkg.org/badges/drat?color=brightgreen)](http://www.r-pkg.org/pkg/drat)
+## drat [![Build Status](https://travis-ci.org/eddelbuettel/drat.svg)](https://travis-ci.org/eddelbuettel/drat) [![License](http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-2.0.html) [![CRAN](http://www.r-pkg.org/badges/version/drat)](http://cran.r-project.org/package=drat) [![Downloads](http://cranlogs.r-pkg.org/badges/drat?color=brightgreen)](http://www.r-pkg.org/pkg/drat)
 
 Drat R Archive Template
 
 ### Background
 
 The R package ecosystem is one of the cornerstones of the success seen by R.
-As of this writing, almost 7000 packages are on [CRAN](http://cran.r-project.org),
+As of early 2016, almost 8000 packages are on [CRAN](http://cran.r-project.org),
 with about one thousand more at [BioConductor](http://www.bioconductor.org) and
 probably another hundred at [OmegaHat](http://www.omegahat.org).
 
@@ -75,9 +75,11 @@ A few drat repositories are starting to appear (besides this one). An incomplete
  - [arilamstein](https://github.com/arilamstein/drat)
  - [piccolbo](https://github.com/piccolbo/drat)
  - [ghrr](https://github.com/ghrr/drat)
+ - [cloudyr](https://cloudyr.github.io/drat)
+ - [dmlc](https://github.com/dmlc/drat)
 
 The [rOpenSci](https://ropensci.org) project uses
-[Drat](http://dirk.eddelbuettel.com/code/drat.html) to distribute their code
+[drat](http://dirk.eddelbuettel.com/code/drat.html) to distribute their code
 and has written a
 [nice blog post](https://ropensci.org/blog/2015/08/04/a-drat-repository-for-ropensci/)
 about it.

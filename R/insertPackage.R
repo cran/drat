@@ -25,13 +25,14 @@
 ##' \sQuote{add}, \sQuote{commit}, and \sQuote{push} or, alternatively,
 ##' a character variable can be used to specify a commit message; this also
 ##' implies the \sQuote{TRUE} values in other contexts.
+##' @param pullfirst Boolean toggle to call \code{git pull} before inserting the package. 
 ##' @param action A character string containing one of: \dQuote{none} 
 ##' (the default; add the new package into the repo, effectively masking 
 ##' previous versions), \dQuote{archive} (place any previous versions into 
 ##' a package-specific archive folder, creating such an archive if it does 
 ##' not already exist), or \dQuote{prune} (calling \code{\link{pruneRepo}}).
-##' @param ... For the aliases variant, a catch-all collection of
-##' parameters.
+##' @param ... For \code{insert} the aliases variant, a catch-all collection of
+##' parameters. For \code{insertPackage} arguments passed to \code{write_PACKAGES}.
 ##' @return NULL is returned.
 ##' @examples
 ##' \dontrun{
@@ -46,12 +47,14 @@
 insertPackage <- function(file,
                           repodir=getOption("dratRepo", "~/git/drat"),
                           commit=FALSE,
-                          action=c("none", "archive", "prune")) {
+                          pullfirst=FALSE,
+                          action=c("none", "archive", "prune"),
+                          ...) {
 
     if (!file.exists(file)) stop("File ", file, " not found\n", call.=FALSE)
 
     ## TODO src/contrib if needed, preferably via git2r
-    if (!file.exists(repodir)) stop("Directory ", repodir, " not found\n", call.=FALSE)
+    if (!dir.exists(repodir)) stop("Directory ", repodir, " not found\n", call.=FALSE)
 
     ## check for the optional git2r package
     haspkg <- requireNamespace("git2r", quietly=TRUE)
@@ -70,9 +73,11 @@ insertPackage <- function(file,
     
     if (commit && haspkg) {  
         repo <- git2r::repository(repodir)
+        if (isTRUE(pullfirst)) git2r::pull(repo)
         git2r::checkout(repo, "gh-pages")
     } else if (commit && hascmd) {
         setwd(repodir)
+        if (isTRUE(pullfirst)) system("git pull")
         system("git checkout gh-pages")
         setwd(curwd)
     }
@@ -95,7 +100,7 @@ insertPackage <- function(file,
     }
     
     ## update index
-    write_PACKAGES(pkgdir, type=pkgtype)
+    write_PACKAGES(pkgdir, type=pkgtype, ...)
 
     if (commit) {
         if (haspkg) {
@@ -180,7 +185,7 @@ getPackageInfo <- function(file) {
         return(fields)
     }
 
-    pkgname <- gsub("^([a-zA-Z0-9]*)_.*", "\\1", basename(file))
+    pkgname <- gsub("^([a-zA-Z0-9.]*)_.*", "\\1", basename(file))
     path <- file.path(td, pkgname, "DESCRIPTION")
     builtstring <- read.dcf(path, 'Built')
     unlink(file.path(td, pkgname), recursive=TRUE)
