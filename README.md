@@ -1,13 +1,13 @@
-## drat [![Build Status](https://travis-ci.org/eddelbuettel/drat.svg)](https://travis-ci.org/eddelbuettel/drat) [![License](http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-2.0.html) [![CRAN](http://www.r-pkg.org/badges/version/drat)](http://cran.r-project.org/package=drat) [![Downloads](http://cranlogs.r-pkg.org/badges/drat?color=brightgreen)](http://www.r-pkg.org/pkg/drat)
+## drat [![Build Status](https://travis-ci.org/eddelbuettel/drat.svg)](https://travis-ci.org/eddelbuettel/drat) [![License](http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-2.0.html) [![CRAN](http://www.r-pkg.org/badges/version/drat)](https://cran.r-project.org/package=drat) [![Downloads](http://cranlogs.r-pkg.org/badges/drat?color=brightgreen)](http://www.r-pkg.org/pkg/drat)
 
 Drat R Archive Template
 
 ### Background
 
 The R package ecosystem is one of the cornerstones of the success seen by R.
-As of early 2016, almost 8000 packages are on [CRAN](http://cran.r-project.org),
+As of early 2016, almost 8000 packages are on [CRAN](https://cran.r-project.org),
 with about one thousand more at [BioConductor](http://www.bioconductor.org) and
-probably another hundred at [OmegaHat](http://www.omegahat.org).
+probably another hundred at [OmegaHat](http://www.omegahat.net).
 
 Support for multiple repositories is built deeply into R; mostly via the
 (default) package `utils`. The
@@ -22,20 +22,9 @@ missing.
 - *GitHub* by leveraging `gh-pages`
 - *Other repos* by using other storage where you can write and provide html access
 
-See the next section about to get started, the package documentation, the
+Please see the next section about how to get started, the package documentation, the
 [drat package page](http://dirk.eddelbuettel.com/code/drat.html) or the
 [blog section on drat](http://dirk.eddelbuettel.com/blog/code/drat/) for more.
-
-### Installation
-
-You can install the package from [CRAN](http://cran.r-project.org) via the
-standard `install.packages("drat")`.  Alternatively,  you can also do
-
-```{.r}
-install.packages("drat", repos="http://eddelbuettel.github.io/drat")
-``` 
-
-to install directly from the drat repository. 
 
 ### Getting Started
 
@@ -54,9 +43,27 @@ tutorial, and the
 [blog section on drat](http://dirk.eddelbuettel.com/blog/code/drat/) has even
 more.
 
+### Installation
+
+You can install the package from [CRAN](https://cran.r-project.org) via the
+standard
+
+```{.r}
+install.packages("drat")
+```
+
+or alternatively,  you can also do
+
+```{.r}
+install.packages("drat", repos="http://eddelbuettel.github.io/drat")
+``` 
+
+to install directly from the drat repository. 
+
+
 ### Status
 
-The package has been available from [CRAN](http://cran.r-project.org) since
+The package has been available from [CRAN](https://cran.r-project.org) since
 the Spring of 2015 and starting to get some use. Possible improvements,
 additions and next steps are listed in the
 [TODO.md](https://github.com/eddelbuettel/drat/blob/master/inst/TODO.md)
