@@ -16,6 +16,16 @@
 ##' An aliased function \code{insert} is also available, but not
 ##' exported via \code{NAMESPACE} to not clobber a possibly unrelated
 ##' function; use it via \code{drat:::insert()}.
+##'
+##' @section Options:
+##'
+##' Set using \code{\link{options}}
+##'
+##' \describe{
+##'   \item{\code{dratRepo}}{Path to git repo. Defaults to \code{~/git/drat}}
+##'   \item{\code{dratBranch}}{The git branch to store packages on. Defaults to \code{gh-pages}}
+##' }
+##'
 ##' @title Insert a package source or binary file into a drat repository
 ##' @aliases drat:::insert
 ##' @param file An R package in source or binary format,
@@ -71,14 +81,15 @@ insertPackage <- function(file,
         commit <- TRUE
     }
 
+    branch <- getOption("dratBranch", "gh-pages")
     if (commit && haspkg) {
         repo <- git2r::repository(repodir)
         if (isTRUE(pullfirst)) git2r::pull(repo)
-        git2r::checkout(repo, "gh-pages")
+        git2r::checkout(repo, branch)
     } else if (commit && hascmd) {
         setwd(repodir)
         if (isTRUE(pullfirst)) system("git pull")
-        system("git checkout gh-pages")
+        system2("git", c("checkout", branch))
         setwd(curwd)
     }
 
@@ -109,15 +120,13 @@ insertPackage <- function(file,
             git2r::add(repo, file.path(reldir, pkg))
             git2r::add(repo, file.path(reldir, "PACKAGES"))
             git2r::add(repo, file.path(reldir, "PACKAGES.gz"))
-            if (file.exists(file.path(reldir, "PACKAGES.rds")))
-                git2r::add(repo, file.path(reldir, "PACKAGES.rds"))
+            git2r::add(repo, file.path(reldir, "PACKAGES.rds"))
             tryCatch(git2r::commit(repo, msg), error = function(e) warning(e))
             #TODO: authentication woes?   git2r::push(repo)
             message("Added and committed ", pkg, " plus PACKAGES files. Still need to push.\n")
         } else if (hascmd) {
             setwd(pkgdir)
-            pkgfs <- "PACKAGES PACKAGES.gz"
-            if (file.exists(file.path(reldir, "PACKAGES.rds"))) pkgfs <- paste(pkgfs, "PACKAGES.rds")
+            pkgfs <- "PACKAGES PACKAGES.gz PACKAGES.rds"
             cmd <- sprintf(paste("git add %s %s;",
                                  "git commit -m\"%s\";",
                                  "git push"), pkg, pkgfs, msg)
@@ -185,7 +194,7 @@ getPackageInfo <- function(file) {
         untar(file, exdir=td)
     } else {
         ##stop("Not sure we can handle ", file, call.=FALSE)
-        fields <- c("Source"=TRUE, "Rmajor"=NA, "Mavericks"=FALSE)
+        fields <- c("Source"=TRUE, "Rmajor"=NA, "osxFolder"="")
         return(fields)
     }
 
@@ -198,8 +207,13 @@ getPackageInfo <- function(file) {
     names(fields) <- c("Rversion", "OSflavour", "Date", "OS")
 
     rmajor <- gsub("^R (\\d\\.\\d)\\.\\d.*", "\\1", fields["Rversion"])
-    isDarwin13 <- ifelse(fields["OSflavour"] == "x86_64-apple-darwin13.4.0", "yes", "no")
-    fields <- c(fields, "Rmajor"=unname(rmajor), "Mavericks"=unname(isDarwin13))
+
+    osxFolder <- switch(fields["OSflavour"],
+                        "x86_64-apple-darwin13.4.0"="mavericks",
+                        "x86_64-apple-darwin15.6.0"="el-capitan",
+                        "")
+
+    fields <- c(fields, "Rmajor"=unname(rmajor), "osxFolder"=osxFolder)
 
     return(fields)
 }
@@ -222,13 +236,17 @@ getPathForPackage <- function(file) {
     } else if (pkgtype == "win.binary") {
         ret <- file.path("bin", "windows", "contrib", rversion)
     } else if (pkgtype == "mac.binary") {
-        if (fields["OSflavour"] == "") {
-            # non-binary package, treated as Mavericks
-            message("Note: Non-binary OS X package will be installed in Mavericks path.")
-            fields["Mavericks"] <- "yes"
+        if (unname(fields["OSflavour"]) == "") {
+            # non-binary package, treated as el-capitan
+            if(grepl("mac.binary", .Platform$pkgType)) {
+              fields["osxFolder"] <- gsub("mac.binary.", "", .Platform$pkgType)
+            } else {
+              fields["osxFolder"] <- "el-capitan"
+            }
+            message("Note: Non-binary OS X package will be installed in ", fields["osxFolder"], " path.")
         }
-        if (unname(fields["Mavericks"]) == "yes") {
-            ret <- file.path("bin", "macosx", "mavericks", "contrib", rversion)
+        if (unname(fields["osxFolder"]) != "") {
+            ret <- file.path("bin", "macosx", fields["osxFolder"], "contrib", rversion)
         } else {
             ret <- file.path("bin", "macosx", "contrib", rversion)
         }
