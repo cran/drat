@@ -3,6 +3,23 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/drat/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/drat/issues/#1}{##1}}
 
+\section{Changes in drat version 0.1.5 (2019-03-28)}{
+  \itemize{
+    \item Changes in drat functionality
+    \itemize{
+      \item Windows paths are handled better when inserting packages
+      (Neal Fultz in \ghpr{70})
+      \item Binary packages are now supported for the \code{pruneRepo}
+      and \code{archivePackages} commands (Christoph Stepper in \ghpr{79}).
+    }
+    \item Changes in drat documentation
+    \itemize{
+      \item Properly prefix R path in \code{system} call in a tests
+      (Dirk in minor cleanup to \ghpr{70}).
+    }
+  }
+}
+
 \section{Changes in drat version 0.1.4 (2017-12-16)}{
   \itemize{
     \item Changes in drat functionality
@@ -11,6 +28,7 @@
       different directories (Neal Futz in \ghpr{67} addring \ghit{64}).
       \item The target branch can now be set via a global option (Neal
       Futz in \ghpr{68} addressing \ghit{61}).
+      \item In commit mode, add file \code{PACKAGES.rds} unconditionally.
     }
     \item Changes in drat documentation
     \itemize{
