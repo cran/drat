@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <meta name="author" content="Steven Pav and Dirk Eddelbuettel" />
 
@@ -16,30 +16,44 @@
 
 <title>Why Drat?</title>
 
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
 
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -48,9 +62,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -96,7 +110,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -117,9 +131,6 @@ padding-right: 2em;
 font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-size: 14px;
 line-height: 1.35;
-}
-#header {
-text-align: center;
 }
 #TOC {
 clear: both;
@@ -288,7 +299,8 @@ code > span.st { color: #d14; }
 code > span.co { color: #888888; font-style: italic; } 
 code > span.ot { color: #007020; } 
 code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
 
@@ -319,11 +331,11 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="demo" class="section level4">
 <h4>Demo</h4>
 <p>To get some idea of what I mean by this, suppose you are a happy consumer of R packages, but want access to, say, the latest, greatest releases of my distribution package, <a href="https://github.com/shabbychef/sadists">sadist</a>. You can simply add the following to your <code>.Rprofile</code> file:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">drat<span class="op">:::</span><span class="kw">add</span>(<span class="st">&quot;shabbychef&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>drat<span class="op">:::</span><span class="kw">add</span>(<span class="st">&quot;shabbychef&quot;</span>)</span></code></pre></div>
 <p>After this, you instantly have access to new releases in the <a href="https://github.com/shabbychef/drat/tree/gh-pages">github/shabbychef drat store</a> via the package tools you already know and tolerate. You can use</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">'sadists'</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">install.packages</span>(<span class="st">&#39;sadists&#39;</span>)</span></code></pre></div>
 <p>to install the sadists package from the drat store, for example. Similarly, if you issue</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">update.packages</span>(<span class="dt">ask=</span><span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">update.packages</span>(<span class="dt">ask=</span><span class="ot">FALSE</span>)</span></code></pre></div>
 <p>all the drat stores you have added will be checked for package updates, along with their dependencies which may well come from other repositories including CRAN.</p>
 </div>
 <div id="use-cases" class="section level4">
@@ -331,7 +343,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <p>The most obvious use cases are:</p>
 <ol style="list-style-type: decimal">
 <li><p>Micro releases. For package authors, this provides a means to get feedback from the early adopters, but also allows one to push small changes and bug fixes without burning through your CRAN karma (if you have any left). My personal drat store tends to be a few minor releases ahead of my CRAN releases.</p></li>
-<li><p>Local repositories. In my professional life, I write and maintain proprietary packages. Pushing package updates used to involve saving the package .tar.gz to a NAS, then calling something like <code>R CMD INSTALL package_name_0.3.1.9001.tar.gz</code>. This is not something I wanted to ask of my colleagues. With drat, they can instead add the following stanza to .Rprofile: <code>drat:::addRepo('localRepo','file:///mnt/NAS/r/local/drat')</code>, and then rely on <code>update.packages</code> to do the rest.</p></li>
+<li><p>Local repositories. In my professional life, I write and maintain proprietary packages. Pushing package updates used to involve saving the package .tar.gz to a NAS, then calling something like <code>R CMD INSTALL package_name_0.3.1.9001.tar.gz</code>. This is not something I wanted to ask of my colleagues. With drat, they can instead add the following stanza to .Rprofile: <code>drat:::addRepo(&#39;localRepo&#39;,&#39;file:///mnt/NAS/r/local/drat&#39;)</code>, and then rely on <code>update.packages</code> to do the rest.</p></li>
 </ol>
 <p>I suspect that in the future, <a href="http://dirk.eddelbuettel.com/code/drat.html">drat</a> might be (ab)used in the following ways:</p>
 <ol start="3" style="list-style-type: decimal">
@@ -350,6 +362,9 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </div>
 </div>
 
+
+
+<!-- code folding -->
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <meta name="author" content="Colin Gillespie and Dirk Eddelbuettel" />
 
@@ -16,6 +16,19 @@
 
 <title>Combining Drat and Travis CI</title>
 
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
 
 
 
@@ -31,9 +44,6 @@ padding-right: 2em;
 font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-size: 14px;
 line-height: 1.35;
-}
-#header {
-text-align: center;
 }
 #TOC {
 clear: both;
@@ -202,7 +212,8 @@ code > span.st { color: #d14; }
 code > span.co { color: #888888; font-style: italic; } 
 code > span.ot { color: #007020; } 
 code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
 
@@ -234,7 +245,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <h2>Workflow</h2>
 <ol style="list-style-type: decimal">
 <li><p>To allow Travis CI to push to your GitHub repository, we need to generate a GitHub <a href="https://github.com/settings/tokens/new">API token</a>. After re-entering your password, just select <code>repo</code>, or if your repository is public, select <code>public_repo</code>. GitHub will create the token and give you a chance to copy it down.</p></li>
-<li>Travis CI will then <a href="http://docs.travis-ci.com/user/encryption-keys/">encrypt</a> this token. The short story is:</li>
+<li><p>Travis CI will then <a href="http://docs.travis-ci.com/user/encryption-keys/">encrypt</a> this token. The short story is:</p></li>
 </ol>
 <pre><code># Install Ruby first. This may require sudo
 gem install travis</code></pre>
@@ -281,15 +292,18 @@ addToDrat(){
   git fetch upstream 2&gt;err.txt
   git checkout gh-pages
 
-  Rscript -e &quot;drat::insertPackage('$PKG_REPO/$PKG_TARBALL', \
-    repodir = '.', \
-    commit='Travis update: build $TRAVIS_BUILD_NUMBER')&quot;
+  Rscript -e &quot;drat::insertPackage(&#39;$PKG_REPO/$PKG_TARBALL&#39;, \
+    repodir = &#39;.&#39;, \
+    commit=&#39;Travis update: build $TRAVIS_BUILD_NUMBER&#39;)&quot;
   git push 2&gt; /tmp/err.txt
 
 }
 addToDrat</code></pre>
 </div>
 
+
+
+<!-- code folding -->
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

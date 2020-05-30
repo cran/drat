@@ -1,13 +1,25 @@
-## drat [![Build Status](https://travis-ci.org/eddelbuettel/drat.svg)](https://travis-ci.org/eddelbuettel/drat) [![License](http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-2.0.html) [![CRAN](http://www.r-pkg.org/badges/version/drat)](https://cran.r-project.org/package=drat) [![Dependencies](https://tinyverse.netlify.com/badge/drat)](https://cran.r-project.org/package=drat) [![Downloads](http://cranlogs.r-pkg.org/badges/drat?color=brightgreen)](http://www.r-pkg.org/pkg/drat)
+## drat: Drat R Archive Template
 
-Drat R Archive Template
+[![Build Status](https://travis-ci.org/eddelbuettel/drat.svg)](https://travis-ci.org/eddelbuettel/drat) 
+[![License](http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-2.0.html) 
+[![CRAN](http://www.r-pkg.org/badges/version/drat)](https://cran.r-project.org/package=drat) 
+[![Dependencies](https://tinyverse.netlify.com/badge/drat)](https://cran.r-project.org/package=drat) 
+[![Downloads](http://cranlogs.r-pkg.org/badges/drat?color=brightgreen)](http://www.r-pkg.org/pkg/drat)
+[![Last Commit](https://img.shields.io/github/last-commit/eddelbuettel/drat)](https://github.com/eddelbuettel/drat)
+
+> **drat**
+>
+> What cute people say when they are pissed off
+> 
+> _"Oh Drat, i lost my wallet"_
+>
+> [Urban Dictionary](http://www.urbandictionary.com/define.php?term=drat)
 
 ### Background
 
 The R package ecosystem is one of the cornerstones of the success seen by R.
-As of September 2017, over 11000 packages are on [CRAN](https://cran.r-project.org),
-with about one thousand more at [BioConductor](http://www.bioconductor.org) and
-probably another hundred at [OmegaHat](http://www.omegahat.net).
+As of May 2020, almost 16000 packages are on [CRAN](https://cran.r-project.org),
+with about one thousand more at [BioConductor](http://www.bioconductor.org).
 
 Support for multiple repositories is built deeply into R; mostly via the
 (default) package `utils`. The
@@ -81,6 +93,7 @@ A few drat repositories are starting to appear (besides this one). An incomplete
  - [ghrr](https://github.com/ghrr/drat)
  - [cloudyr](https://cloudyr.github.io/drat)
  - [dmlc](https://github.com/dmlc/drat)
+ - [thospfuller](https://github.com/thospfuller/drat)
 
 The [rOpenSci](https://ropensci.org) project uses
 [drat](http://dirk.eddelbuettel.com/code/drat.html) to distribute their code
@@ -99,8 +112,8 @@ details, and the contributed vignette
 ### Author
 
 Dirk Eddelbuettel, with contributions by Carl Boettiger, Sebastian Gibb,
-Colin Gillespie, Matt Jones, Thomas Leeper, Steven Pav, Jan Schulz, and
-Christoph Stepper.
+Colin Gillespie, Matt Jones, Thomas Leeper, Steven Pav, Jan Schulz,
+Christoph Stepper, and Felix G.M. Ernst.
 
 ### License
 
