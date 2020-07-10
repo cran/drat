@@ -3,6 +3,7 @@
 \name{insertPackage}
 \alias{insertPackage}
 \alias{drat:::insert}
+\alias{insertPackages}
 \alias{insert}
 \title{Insert a package source or binary file into a drat repository}
 \usage{
@@ -15,10 +16,12 @@ insertPackage(
   ...
 )
 
+insertPackages(file, ...)
+
 insert(...)
 }
 \arguments{
-\item{file}{An R package in source or binary format,}
+\item{file}{One or more R package(s) in source or binary format}
 
 \item{repodir}{A local directory corresponding to the repository
 top-level directory.}
@@ -37,7 +40,9 @@ a package-specific archive folder, creating such an archive if it does
 not already exist), or \dQuote{prune} (calling \code{\link{pruneRepo}}).}
 
 \item{...}{For \code{insert} the aliases variant, a catch-all collection of
-parameters. For \code{insertPackage} arguments passed to \code{write_PACKAGES}.}
+parameters. For \code{insertPackage} arguments passed to 
+\code{write_PACKAGES} currently include \code{latestOnly}, for which the 
+default value is set here to \code{FALSE}. See \code{\link{write_PACKAGES}}.}
 }
 \value{
 NULL is returned.

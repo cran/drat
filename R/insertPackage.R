@@ -28,7 +28,7 @@
 ##'
 ##' @title Insert a package source or binary file into a drat repository
 ##' @aliases drat:::insert
-##' @param file An R package in source or binary format,
+##' @param file One or more R package(s) in source or binary format
 ##' @param repodir A local directory corresponding to the repository
 ##' top-level directory.
 ##' @param commit Either boolean toggle to select automatic git operations
@@ -42,7 +42,9 @@
 ##' a package-specific archive folder, creating such an archive if it does
 ##' not already exist), or \dQuote{prune} (calling \code{\link{pruneRepo}}).
 ##' @param ... For \code{insert} the aliases variant, a catch-all collection of
-##' parameters. For \code{insertPackage} arguments passed to \code{write_PACKAGES}.
+##' parameters. For \code{insertPackage} arguments passed to 
+##' \code{write_PACKAGES} currently include \code{latestOnly}, for which the 
+##' default value is set here to \code{FALSE}. See \code{\link{write_PACKAGES}}.
 ##' @return NULL is returned.
 ##' @examples
 ##' \dontrun{
@@ -95,7 +97,8 @@ insertPackage <- function(file,
     
     pkginfo <- getPackageInfo(file)
     pkgtype <- identifyPackageType(file, pkginfo)
-    pkgdir <- normalizePath(contrib.url2(repodir, pkgtype, pkginfo["Rmajor"]))
+    pkgdir <- normalizePath(contrib.url2(repodir, pkgtype, pkginfo["Rmajor"]),
+                            mustWork = FALSE)
 
     if (!file.exists(pkgdir)) {
         ## TODO: this could be in a git branch, need checking
@@ -110,10 +113,9 @@ insertPackage <- function(file,
     }
 
     ## update index
-    split_pkgtype <- strsplit(pkgtype,"\\.")[[1L]]
-    write_pkgtype <- paste(split_pkgtype[seq.int(1L,min(2L,length(split_pkgtype)))],
-                           collapse = ".")
-    write_PACKAGES(pkgdir, type = write_pkgtype, ...)
+    args <- .norm_tools_package_args(...)
+    do.call(tools::write_PACKAGES,
+            c(list(dir = pkgdir, type = .get_write_PACKAGES_type(pkgtype)), args))
 
     if (commit) {
         if (haspkg) {
@@ -159,10 +161,35 @@ insertPackage <- function(file,
     invisible(NULL)
 }
 
+.norm_tools_package_args <- function(...){
+    args <- list(...)
+    if(is.null(args[["latestOnly"]])){
+        args[["latestOnly"]] <- FALSE
+    }
+    args
+}
 
+.get_write_PACKAGES_type <- function(pkgtype){
+    split_pkgtype <- strsplit(pkgtype,"\\.")[[1L]]
+    write_pkgtype <- paste(split_pkgtype[seq.int(1L,min(2L,length(split_pkgtype)))],
+                           collapse = ".")
+    write_pkgtype
+}
 
 ##' @rdname insertPackage
-insert <- function(...) insertPackage(...)
+insertPackages <- function(file, ...){
+    invisible(lapply(file, insertPackage, ...))
+}
+
+##' @rdname insertPackage
+insert <- function(...) {
+    args <- list(...)
+    if(length(args[["file"]]) > 1L){
+        insertPackages(...)
+    } else {
+        insertPackage(...)
+    }
+}
 
 
 ##' This function identifies the package type from a filename.
@@ -246,14 +273,31 @@ getPackageInfo <- function(file) {
 }
 
 contrib.url2 <- function(repos, type = getOption("pkgType"), version = NULL){
-    contrib_url <- contrib.url(repos = repos, type = type)
-    if(is.null(version) || is.na(version)){
-        return(contrib_url)
+    FUN <- function(t){
+        contrib_url <- contrib.url(repos = repos, type = t)
+        if(is.null(version)){
+            return(contrib_url)
+        } else if(is.na(version)) {
+            if(t != "source"){
+                contrib_url <- c(contrib_url,
+                                 list.dirs(gsub(DRAT_CONTRIB_VERSION_REGEX, "contrib",
+                                             contrib_url),
+                                        recursive = FALSE))
+                contrib_url <- unique(contrib_url)
+            }
+        } else {
+            version <- package_version(version)
+            contrib_url <- gsub(DRAT_CONTRIB_VERSION_REGEX,
+                                file.path("contrib",
+                                          paste0(version$major,".",version$minor)),
+                                contrib_url)
+            contrib_url
+        }
+        contrib_url
     }
-    version <- package_version(version)
-    contrib_url <- gsub("contrib/[0-9]\\.[0-9]",
-                        paste0("contrib/",
-                               paste0(version$major,".",version$minor)),
-                        contrib_url)
-    contrib_url
+    urls <- lapply(type,FUN)
+    names <- unlist(mapply(rep,type,lengths(urls),SIMPLIFY = FALSE))
+    urls <- unlist(urls)
+    names(urls) <- names
+    urls
 }

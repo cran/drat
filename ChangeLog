@@ -1,3 +1,80 @@
+2020-07-10  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version): Release 0.1.7
+
+	* tests/skeleton_git2r.R (testRepoActions): More explicit
+	conditioning on presence of optional git2r
+
+2020-07-05  FelixErnst  <felix.gm.ernst@outlook.com>
+
+	* man/insertPackages.Rd: document optional arguments more clearly
+	* man/pruneRepo.Rd: document optional arguments more clearly
+	* R/insertPackages.R: minor refactoring
+	* R/pruneRepo.R: minor refactoring
+
+2020-07-02  Dirk Eddelbuettel  <edd@debian.org>
+
+ 	* DESCRIPTION (Version, Date): Roll minor version
+
+2020-07-01  FelixErnst  <felix.gm.ernst@outlook.com>
+
+	* R/archivePackages.R: Cover special case of adding to archive
+	* R/pruneRepo.R: Idem
+	* tests/skeleton_get2r.R: Idem
+
+2020-06-30  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version
+
+2020-06-20  FelixErnst  <felix.gm.ernst@outlook.com>
+
+	* R/pruneRepo.R: New function updateRepo, minor refactoring
+	* R/insertPackages.R: Idem
+	* R/archivePackages.R: Idem
+	* man/pruneRepo.Rd: Document updateRepo
+	* NAMESPACE: Add updateRepo
+
+2020-06-10  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version
+
+	* drat.Rproj: Undo accidental delete in preceding commit storms
+
+2020-06-09  FelixErnst  <felix.gm.ernst@outlook.com>
+
+	* R/insertPackages.R: Updates to insertPackages function
+	* man/insertPackages.Rd: Idem
+	* R/archivePackages.R: Bug fixes
+	* R/prunePackages.R: Idem
+
+	* tests/skeleton_git2r.R: Added tests for insertPackages,
+	archivePackages and pruneRepo
+	* inst/extdata/*: Added toy packages to support tests
+
+2020-06-08  FelixErnst  <felix.gm.ernst@outlook.com>
+
+	* R/archivePackages.R: Refactored vectorisation
+	* R/prunePackages.R: Idem
+	* man/addRepo.Rd: Updated
+	* man/archivePackages.Rd: Idem
+	* man/pruneRepo.Rd: Idem
+	* R/insertPackages.R: Added insertPackages function
+	* man/insertPackages.Rd: Idem
+
+2020-06-07  Dirk Eddelbuettel  <edd@debian.org>
+
+	* man/addRepo.Rd: Updated
+	* man/archivePackages.Rd: Idem
+	* man/insertPackages.Rd: Idem
+	* man/pruneRepo.Rd: Idem
+
+2020-06-05  Patrick Schratz  <patrick.schratz@gmail.com>
+
+	* R/archivePackages.R: First pass at vectorising operations
+	* R/insertPackages.R: Idem
+	* R/prunePackages.R: Idem
+	* NAMESPACE: Idem
+
 2020-05-29  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version): Release 0.1.6
