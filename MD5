@@ -1,14 +1,14 @@
-648951a0b5220b4a0f2658a3a6472de2 *ChangeLog
-3b20caeb5a83f5c55fe3283d3fb070e6 *DESCRIPTION
+a0c7d1cd7054008b0f78f047f6c312a0 *ChangeLog
+896f19a47673acc84026e828833845c6 *DESCRIPTION
 8315d0dd0b0671af3691a1490ab5292d *NAMESPACE
 9e18e506305ed38400023538379581dc *R/addRepo.R
 44884cdf68efcbb03420a9a28739f969 *R/archivePackages.R
 538b60650faf2ee1dab047789b8a3535 *R/initRepo.R
 5878aaab3975303320c39b31b3af6711 *R/insertPackage.R
 2a7f05c79e44b8fa8705c071f7cef326 *R/pruneRepo.R
-1826aae89d59dd3a12361927d65268ac *README.md
+dde51a8b84f5460390d7a5624a1fa448 *README.md
 09ad2a3aec3da4ff55f0959d276854c4 *build/vignette.rds
-d4e5b4d415be274f40087b11109350f8 *inst/NEWS.Rd
+8d47b878482be80bddc01edb06f2e816 *inst/NEWS.Rd
 c9458256dd40394eed75bf783a1bc95c *inst/TODO.md
 d7ea93effebd4f9f23999db5ee595609 *inst/doc/CombiningDratAndTravis.Rmd
 bb4724fbd646787e4f018ed30d9fe201 *inst/doc/CombiningDratAndTravis.html
@@ -46,7 +46,7 @@ b6214e5055b0fd31f178783205fc554c *man/identifyPackageType.Rd
 1c8cff046f2bc22cadb6a67886c454b3 *man/insertPackage.Rd
 d614225679a4ab0c4ed6339592765e37 *man/pruneRepo.Rd
 990a4eb95f3a6adc1f4ab368dd8420a9 *tests/simpleTests.R
-95c0f7e3053a51ed550c0d6410cc7cb9 *tests/skeleton_git2r.R
+0ed5e8d0a0d253ac625d8caadf0f509d *tests/skeleton_git2r.R
 d7ea93effebd4f9f23999db5ee595609 *vignettes/CombiningDratAndTravis.Rmd
 7c479acceb9ae0c05cc5e42ee9f28ff4 *vignettes/DratFAQ.Rmd
 6f742cfc39f4a3fce359b77282429730 *vignettes/DratForPackageAuthors.Rmd
