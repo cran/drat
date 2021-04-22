@@ -2,11 +2,15 @@
 title: "Drat Frequently Asked Questions"
 author: "Dirk Eddelbuettel"
 date: "2016-10-27"
-output: rmarkdown::html_vignette
+output:
+  minidown::mini_document:
+    framework: water
+    toc: true
+    toc_float: true
 vignette: >
   %\VignetteIndexEntry{Drat Frequently Asked Questions}
   %\VignetteEngine{knitr::rmarkdown}
-  \usepackage[utf8]{inputenc}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ## What is drat?
@@ -49,14 +53,14 @@ helps creating and using R package repositories easier_.
 
 Glad you asked.  We have written
 
-+ a [package webpage](http://dirk.eddelbuettel.com/code/drat.html) giving a
++ a [package webpage](https://dirk.eddelbuettel.com/code/drat.html) giving a
 first instroduction
-+ several [blog posts](http://dirk.eddelbuettel.com/blog/code/drat/) on the package
++ several [blog posts](https://dirk.eddelbuettel.com/blog/code/drat/) on the package
 and its releases
-+ the [GitHub page README](http://github.com/eddelbuettel/drat)
++ the [GitHub page README](https://github.com/eddelbuettel/drat)
 + several [vignettes accessible from the package page](https://cran.r-project.org/package=drat)
 and other places.
-+ the [drat repo page](http://eddelbuettel.github.io/drat)
++ the [drat repo page](https://eddelbuettel.github.io/drat/)
 
 
 ## Why the focus on GitHub?
@@ -65,8 +69,8 @@ Several answers:
 
 + Because it is there and used by ever increasing numbers of package authors.
 + Because it is pretty fast and reliable, no matter where in the world you are.
-+ Because it _already gives every repository owner a web-server_ via the
-gh-pages branch.
++ Because it _already gives every repository owner a web-server_ via either a
+gh-pages branch or a `docs/` directory.
 + Because all we need is a web-server and some file system space
 + Because the single variable `user` uniquely identifies a URL
 `user.github.io/drat/`, and communicating a single variable is easier than
@@ -130,7 +134,7 @@ such that the search may miss them). One example we used to point to here
 changed however. So for a more stable use case, one example from my packages:
 the [RcppRedis package](https://cran.r-project.org/package=RcppRedis) points
 [via this line](https://github.com/eddelbuettel/rcppredis/blob/e103ea1cb682ea164bf8a2ae022df64154466e58/DESCRIPTION#L21)
-to the [ghrr drat](http://ghrr.github.io/drat) to (optionally) use the
+to the [ghrr drat](https://ghrr.github.io/drat/) to (optionally) use the
 [RcppMsgPack](https://github.com/eddelbuettel/rcppmsgpack) package (which is
 not on CRAN as it uses a MsgPack release newer than what it in Debian).
 

@@ -45,6 +45,10 @@
 ##' parameters. For \code{insertPackage} arguments passed to 
 ##' \code{write_PACKAGES} currently include \code{latestOnly}, for which the 
 ##' default value is set here to \code{FALSE}. See \code{\link{write_PACKAGES}}.
+##' @param location A character variable with the GitHub Pages location:
+##' either \dQuote{gh-pages} indicating a branch of that name, or
+##' \dQuote{docs/} directory in the main branch. The default value can
+##' be overridden via the \dQuote{dratBranch} option.
 ##' @return NULL is returned.
 ##' @examples
 ##' \dontrun{
@@ -61,12 +65,15 @@ insertPackage <- function(file,
                           commit = FALSE,
                           pullfirst = FALSE,
                           action = c("none", "archive", "prune"),
+                          location = getOption("dratBranch", "gh-pages"),
                           ...) {
 
     if (!file.exists(file)) stop("File ", file, " not found\n", call. = FALSE)
 
     ## TODO src/contrib if needed, preferably via git2r
     if (!dir.exists(repodir)) stop("Directory ", repodir, " not found\n", call. = FALSE)
+
+    .check_location_arg(location)
 
     ## check for the optional git2r package
     haspkg <- requireNamespace("git2r", quietly = TRUE)
@@ -83,30 +90,35 @@ insertPackage <- function(file,
         commit <- TRUE
     }
 
-    branch <- getOption("dratBranch", "gh-pages")
+    #branch <- getOption("dratBranch", "gh-pages")
+    branch <- location
     if (commit && haspkg) {
         repo <- git2r::repository(repodir)
         if (isTRUE(pullfirst)) git2r::pull(repo)
-        git2r::checkout(repo, branch)
+        if (branch == "gh-pages") {
+            git2r::checkout(repo, branch)
+        }
     } else if (commit && hascmd) {
         setwd(repodir)
         if (isTRUE(pullfirst)) system("git pull")
-        system2("git", c("checkout", branch))
-        setwd(curwd)
+        if (branch == "gh-pages") {
+            system2("git", c("checkout", branch))
+            setwd(curwd)
+        }
     }
-    
+
+    if (location == "docs") repodir <- file.path(repodir, location)
+
     pkginfo <- getPackageInfo(file)
     pkgtype <- identifyPackageType(file, pkginfo)
     pkgdir <- normalizePath(contrib.url2(repodir, pkgtype, pkginfo["Rmajor"]),
                             mustWork = FALSE)
-
     if (!file.exists(pkgdir)) {
         ## TODO: this could be in a git branch, need checking
         if (!dir.create(pkgdir, recursive = TRUE)) {
             stop("Directory ", pkgdir, " couldn't be created\n", call. = FALSE)
         }
     }
-
     ## copy file into repo
     if (!file.copy(file, pkgdir, overwrite = TRUE)) {
         stop("File ", file, " can not be copied to ", pkgdir, call. = FALSE)
@@ -243,17 +255,24 @@ getPackageInfo <- function(file) {
 
     td <- tempdir()
     if (grepl(".zip$", file)) {
-        unzip(file, exdir = td)
+        unzip(file, exdir = td) # Windows
     } else if (grepl(".tgz$", file)) {
-        untar(file, exdir = td)
+        untar(file, exdir = td) # macOS
     } else {
+        # Source
         ##stop("Not sure we can handle ", file, call.=FALSE)
         fields <- c("Source" = TRUE, "Rmajor" = NA, "osxFolder" = "")
         return(fields)
     }
-
+    
+    # Working with data from compressed file only from here on
     pkgname <- gsub("^([a-zA-Z0-9.]*)_.*", "\\1", basename(file))
     path <- file.path(td, pkgname, "DESCRIPTION")
+    if(!file.exists(path)){
+        stop("DESCRIPTION file cannot be opened in '",file,"'. It is expected ",
+             "to be located in the base directory of compressed file.",
+             call. = FALSE)
+    }
     builtstring <- read.dcf(path, 'Built')
     unlink(file.path(td, pkgname), recursive = TRUE)
 

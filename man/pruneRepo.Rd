@@ -12,7 +12,8 @@ getRepoInfo(
   type = c("source", "binary", "mac.binary", "mac.binary.el-capitan",
     "mac.binary.mavericks", "win.binary", "both"),
   pkg,
-  version = getRversion()
+  version = getRversion(),
+  location = getOption("dratBranch", "gh-pages")
 )
 
 pruneRepo(
@@ -21,7 +22,8 @@ pruneRepo(
     "win.binary", "both"),
   pkg,
   version = getRversion(),
-  remove = FALSE
+  remove = FALSE,
+  location = getOption("dratBranch", "gh-pages")
 )
 
 pruneRepoForAllRversions(
@@ -59,6 +61,11 @@ default), pruning is performed on all packages.}
 (default: \code{version = getRversion()}). If \code{version = NA}, all
 available R versions will be used. If \code{version = NULL}, this defaults
 to \code{getRversion()}.}
+
+\item{location}{An optional character variable with the GitHub Pages location:
+either \dQuote{gh-pages} indicating a branch of that name, or
+\dQuote{docs/} directory in the main branch. The default value can
+be overridden via the \dQuote{dratBranch} option.}
 
 \item{remove}{Character or logical variable indicating whether
 files should be removed. Nothing happens if \sQuote{FALSE}. If
