@@ -1,16 +1,13 @@
+<!--
+%\VignetteIndexEntry{Drat Frequently Asked Questions}
+%\VignetteEngine{simplermarkdown::mdweave_to_html}
+%\VignetteEncoding{UTF-8}
+-->
 ---
 title: "Drat Frequently Asked Questions"
 author: "Dirk Eddelbuettel"
 date: "2016-10-27"
-output:
-  minidown::mini_document:
-    framework: water
-    toc: true
-    toc_float: true
-vignette: >
-  %\VignetteIndexEntry{Drat Frequently Asked Questions}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+css: "water.css"
 ---
 
 ## What is drat?
@@ -128,8 +125,7 @@ this should just work for both Windows and OS X.
 Glad you asked!  In fact, you can use
 [this GitHub query](https://github.com/search?q=Additional_repositories+drat&type=Code&utf8=%E2%9C%93)
 to find several dozen of packages using `Additional_repositories` to point to
-drat repos (still having drat in their name; other such as
-[packages.ropensci.org](http://packages.ropensci.org/) may use domain nane
+drat repos (still having drat in their name; others may use domain nane
 such that the search may miss them). One example we used to point to here
 changed however. So for a more stable use case, one example from my packages:
 the [RcppRedis package](https://cran.r-project.org/package=RcppRedis) points
@@ -158,6 +154,7 @@ edd@max:~/git/drat(master)$
 ```
 
 It combined four elements:
+
 - the package name
 - the current version
 - the current git repository commit hash marker
