@@ -3,6 +3,15 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/drat/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/drat/issues/#1}{##1}}
 
+
+\section{Changes in drat version 0.2.3 (2022-04-13)}{
+  \itemize{
+    \item Arm M1 repos are now supported (\ghpr{126} and
+    \ghpr{131} fixing \ghit{125})
+    \item A vignette typo has been fixed (\ghpr{130})
+  }
+}
+
 \section{Changes in drat version 0.2.2 (2021-12-01)}{
   \itemize{
     \item Travis artifacts and badges have been pruned

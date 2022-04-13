@@ -17,6 +17,7 @@
     pre > code.sourceCode { white-space: pre; position: relative; }
     pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
     div.sourceCode { margin: 1em 0; }
     pre.sourceCode { margin: 0; }
@@ -76,6 +77,7 @@
     code span.va { color: #19177c; } /* Variable */
     code span.vs { color: #4070a0; } /* VerbatimString */
     code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
   <style type="text/css">
 body {
@@ -154,6 +156,9 @@ background-color: unset;
 color: unset;
 }
 </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
 </head>
 <body>
 <header id="title-block-header">
@@ -175,15 +180,15 @@ color: unset;
 <p>This vignette deals with the second case: How to use <a href="https://dirk.eddelbuettel.com/code/drat.html">drat</a> as package users. A <a href="DratForPackageAuthors.html">companion vignette for package authors</a> is available as well.</p>
 <h2 id="case-1-using-github">Case 1: Using GitHub</h2>
 <p><a href="https://dirk.eddelbuettel.com/code/drat.html">drat</a> makes it <em>very</em> easy to use an R package repository hosted on GitHub. It assumes simply that the R package repository is hosted in a GitHub repository named <code>drat</code>. With that, we only need one piece of information: the name of the repository (and if this seem mysterious see the discussion in the <a href="DratForPackageAuthors.html">companion vignette</a>. So</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>drat<span class="op">::</span><span class="kw">addRepo</span>(<span class="st">&quot;eddelbuettel&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>drat<span class="sc">::</span><span class="fu">addRepo</span>(<span class="st">&quot;eddelbuettel&quot;</span>)</span></code></pre></div>
 <p>adds my drat repo (which contains only the drat package in order to keep the footprint of forking small).</p>
-<p>One can add several repositoties at once. The following statements adds the repo for Rcpp and my catch-all ghrr repo:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>drat<span class="op">::</span><span class="kw">addRepo</span>(<span class="kw">c</span>(<span class="st">&quot;eddelbuettel&quot;</span>, <span class="st">&quot;RcppCore&quot;</span>, <span class="st">&quot;ghrr&quot;</span>))</span></code></pre></div>
+<p>One can add several repositories at once. The following statements adds the repo for Rcpp and my catch-all ghrr repo:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>drat<span class="sc">::</span><span class="fu">addRepo</span>(<span class="fu">c</span>(<span class="st">&quot;eddelbuettel&quot;</span>, <span class="st">&quot;RcppCore&quot;</span>, <span class="st">&quot;ghrr&quot;</span>))</span></code></pre></div>
 <p>Note that this use a vectorised first argument, rather than three arguments.</p>
 <h2 id="case-2-using-another-repo">Case 2: Using Another Repo</h2>
 <p>Sometimes we want to use repositories not conforming to the GitHub <code>drat</code> pattern. This use case may simply be a different URL, or server. Another common (and very useful case) is for a locally hosted repository.</p>
 <p>In this case we use the two argument form: the first argument sets the name within the <code>repos</code> vector, and the second provides the local (filesystem-based) or remote (web-based) URL:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>drat<span class="op">::</span><span class="kw">addRepo</span>(<span class="st">&quot;workgroup&quot;</span>, <span class="st">&quot;file://nfs/groups/groupABC/R/drat&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>drat<span class="sc">::</span><span class="fu">addRepo</span>(<span class="st">&quot;workgroup&quot;</span>, <span class="st">&quot;file://nfs/groups/groupABC/R/drat&quot;</span>)</span></code></pre></div>
 <p>where the same local network repository example is used as in the example in the <a href="DratForPackageAuthors.html">companion vignette</a>. Note that we start the location URL with <code>file:</code>.</p>
 <h2 id="summary">Summary</h2>
 <p><a href="https://dirk.eddelbuettel.com/code/drat.html">drat</a> makes it very easy to register additional package repositories. One or more calls to <code>drat::addRepo()</code> is all that it takes as shown above. After that, one can use <code>install.packages()</code> or <code>update.packages()</code> just as before, but with the additional repositories at one’s disposal.</p>
