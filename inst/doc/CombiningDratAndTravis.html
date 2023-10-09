@@ -51,7 +51,7 @@
     code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
     code span.at { color: #7d9029; } /* Attribute */
     code span.bn { color: #40a070; } /* BaseN */
-    code span.bu { } /* BuiltIn */
+    code span.bu { color: #008000; } /* BuiltIn */
     code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
     code span.ch { color: #4070a0; } /* Char */
     code span.cn { color: #880000; } /* Constant */
@@ -64,7 +64,7 @@
     code span.ex { } /* Extension */
     code span.fl { color: #40a070; } /* Float */
     code span.fu { color: #06287e; } /* Function */
-    code span.im { } /* Import */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
     code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
     code span.kw { color: #007020; font-weight: bold; } /* Keyword */
     code span.op { color: #666666; } /* Operator */
@@ -155,9 +155,6 @@ background-color: unset;
 color: unset;
 }
 </style>
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
 </head>
 <body>
 <header id="title-block-header">
@@ -171,14 +168,33 @@ color: unset;
 %\VignetteEncoding{UTF-8}
 -->
 <h2 id="what-is-travis-ci">What is Travis CI?</h2>
-<p><a href="https://travis-ci.org/">Travis CI</a> is a hosted continuous integration service. It is integrated with GitHub and offers first class support for a number of languages, but importantly for us, R. Travis CI enables package authors to continually ensure their package always build and passes associated unit tests.</p>
-<p>Whenever a commit is pushed to a git repository that contains an R package, Travis CI attempts to build the associated R package (see <a href="https://github.com/craigcitro/r-travis">r-travis</a> for R specific examples). This ensures the repository always contains a working package. This vignette describes a modification to the standard Travis CI workflow. If a package build is successful, the package is then pushed to a <a href="http://dirk.eddelbuettel.com/code/drat.html">drat</a> repository.</p>
+<p><a href="https://www.travis-ci.com/">Travis CI</a> is a hosted
+continuous integration service. It is integrated with GitHub and offers
+first class support for a number of languages, but importantly for us,
+R. Travis CI enables package authors to continually ensure their package
+always build and passes associated unit tests.</p>
+<p>Whenever a commit is pushed to a git repository that contains an R
+package, Travis CI attempts to build the associated R package (see <a href="https://github.com/craigcitro/r-travis">r-travis</a> for R
+specific examples). This ensures the repository always contains a
+working package. This vignette describes a modification to the standard
+Travis CI workflow. If a package build is successful, the package is
+then pushed to a <a href="http://dirk.eddelbuettel.com/code/drat.html">drat</a>
+repository.</p>
 <h2 id="preliminaries">Preliminaries</h2>
-<p>Unsurprisingly in order to integrate Travis CI with drat, you must first to have a <a href="https://github.com/eddelbuettel/drat">drat</a> repository and secondly add <a href="https://github.com/craigcitro/r-travis">Travis CI</a> support to that repository.</p>
+<p>Unsurprisingly in order to integrate Travis CI with drat, you must
+first to have a <a href="https://github.com/eddelbuettel/drat">drat</a>
+repository and secondly add <a href="https://github.com/craigcitro/r-travis">Travis CI</a> support to
+that repository.</p>
 <h2 id="workflow">Workflow</h2>
 <ol type="1">
-<li><p>To allow Travis CI to push to your GitHub repository, we need to generate a GitHub <a href="https://github.com/settings/tokens/new">API token</a>. After re-entering your password, just select <code>repo</code>, or if your repository is public, select <code>public_repo</code>. GitHub will create the token and give you a chance to copy it down.</p></li>
-<li><p>Travis CI will then <a href="http://docs.travis-ci.com/user/encryption-keys/">encrypt</a> this token. The short story is:</p></li>
+<li><p>To allow Travis CI to push to your GitHub repository, we need to
+generate a GitHub <a href="https://github.com/settings/tokens/new">API
+token</a>. After re-entering your password, just select
+<code>repo</code>, or if your repository is public, select
+<code>public_repo</code>. GitHub will create the token and give you a
+chance to copy it down.</p></li>
+<li><p>Travis CI will then <a href="http://docs.travis-ci.com/user/encryption-keys/">encrypt</a> this
+token. The short story is:</p></li>
 </ol>
 <div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install Ruby first. This may require sudo</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">gem</span> install travis</span></code></pre></div>
@@ -189,7 +205,12 @@ color: unset;
 <li><code>cd</code> to the R package directory and run</li>
 </ol>
 <div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">travis</span> encrypt GH_TOKEN=<span class="va">$MY_ACCESS_TOKEN</span> <span class="at">--add</span> env.global</span></code></pre></div>
-<p>where <code>$MY_ACCESS_TOKEN</code> is your access token. The <code>--add env.global</code> automatically adds the token to your <code>.travis.yml</code> file. 1. Add the <code>deploy.sh</code> shell script to your repository and edit appropriately. An example is found at the end of this vignette and also in the <a href="https://github.com/csgillespie/dratTravis">dratTravis</a> repository.</p>
+<p>where <code>$MY_ACCESS_TOKEN</code> is your access token. The
+<code>--add env.global</code> automatically adds the token to your
+<code>.travis.yml</code> file. 1. Add the <code>deploy.sh</code> shell
+script to your repository and edit appropriately. An example is found at
+the end of this vignette and also in the <a href="https://github.com/csgillespie/dratTravis">dratTravis</a>
+repository.</p>
 <ol type="1">
 <li>Add the lines</li>
 </ol>
@@ -206,7 +227,8 @@ to your `.travis.yml` file. This means your `drat` repository is only updated
   
   
   </code></pre>
-<h2 id="example-deploy.sh-script">Example <code>deploy.sh</code> script</h2>
+<h2 id="example-deploy.sh-script">Example <code>deploy.sh</code>
+script</h2>
 <div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> <span class="at">-o</span> errexit <span class="at">-o</span> nounset</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">addToDrat()</span><span class="kw">{</span></span>
@@ -232,6 +254,8 @@ to your `.travis.yml` file. This means your `drat` repository is only updated
 <span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
 <span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="ex">addToDrat</span></span></code></pre></div>
-<p>If you use a <code>docs/</code> directory in the main branch, omit <code>git checkout gh-pages</code> and use <code>cd docs</code> instead.</p>
+<p>If you use a <code>docs/</code> directory in the main branch, omit
+<code>git checkout gh-pages</code> and use <code>cd docs</code>
+instead.</p>
 </body>
 </html>
